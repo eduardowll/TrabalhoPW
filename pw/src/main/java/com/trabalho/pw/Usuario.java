@@ -6,10 +6,6 @@ public class Usuario {
     String senha;
     String tipo;
 
-    Usuario(){
-
-    }
-
     public Usuario(String nome, String email, String senha, String tipo) {
         this.nome = nome;
         this.email = email;

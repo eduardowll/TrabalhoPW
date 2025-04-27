@@ -34,5 +34,22 @@ public class UsuarioDAO {
         }
         return null;
     }
-}
 
+    public void inserirUsuario(Usuario usuario) {
+        try {
+            Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            String sql = "INSERT INTO Usuario (nome, email, senha, tipo) VALUES (?, ?, ?, ?)";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setString(1, usuario.getNome());
+            stmt.setString(2, usuario.getEmail());
+            stmt.setString(3, usuario.getSenha());
+            stmt.setString(4, usuario.getTipo());
+
+            stmt.executeUpdate();
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+}
