@@ -1,9 +1,11 @@
 package com.trabalho.pw;
 
+import ch.qos.logback.core.model.Model;
 import com.trabalho.pw.UsuarioDAO;
 import com.trabalho.pw.Usuario;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -46,7 +48,9 @@ public class LoginController {
 
         if ("login".equals(acao)) {
             if (usuarioExistente != null && usuarioExistente.getSenha().equals(senha)) {
-                response.sendRedirect("/ListaProdutos/Produtos");
+                HttpSession session = request.getSession(true);
+                session.setAttribute("id", usuarioExistente.getId());
+                response.sendRedirect("/login/validarSessao"); // /ListaProdutos/Produtos
             } else {
                 response.getWriter().write("<h1>Email ou senha inválidos.</h1>");
             }
@@ -55,10 +59,43 @@ public class LoginController {
                 response.getWriter().write("<h1>Erro: Email já cadastrado!</h1>");
             } else {
                 usuarioDAO.inserirUsuario(new Usuario(nome, email, senha, "cliente")); // Cadastra como cliente
+
                 response.getWriter().write("<h1>Cadastro realizado com sucesso! Agora faça login.</h1>");
             }
         } else {
             response.getWriter().write("<h1>Ação inválida.</h1>");
         }
     }
+
+
+    @RequestMapping("/validarSessao")
+    public void validarSessao(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession(false);
+        Long id;
+
+        if (session.toString() != null) {
+            id = (Long) session.getAttribute("id");
+        }else{
+            id = (long) -1;
+        }
+        if (id == -1) {
+            response.sendRedirect("/login/form");
+        } else {
+            response.sendRedirect("/ListaProdutos/Produtos");
+        }
+
+    }
+
+    @RequestMapping("/logout") //
+    public void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        HttpSession session = request.getSession(false);
+
+        if (session != null) {
+            session.invalidate(); // Invalida/destrói a sessão (remove o userId e tudo mais)
+        }
+
+        response.sendRedirect("/login/form");
+    }
+
+
 }

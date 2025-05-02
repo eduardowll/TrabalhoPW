@@ -2,13 +2,13 @@ package com.trabalho.pw;
 
 public class Produto {
 
-    private int id;
+    private Long id;
     private String nome;
     private String descricao;
     private double preco;
     private int qntd;
 
-    public Produto(int id, String nome, String descricao, double preco, int qntd) {
+    public Produto(Long id, String nome, String descricao, double preco, int qntd) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
@@ -16,7 +16,7 @@ public class Produto {
         this.qntd = qntd;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 

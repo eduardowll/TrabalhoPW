@@ -1,5 +1,6 @@
 package com.trabalho.pw;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.ArrayList;
@@ -9,8 +10,8 @@ import java.util.List;
 
 public class ProdutoDAO {
     private static final String URL = "jdbc:postgresql://localhost:5432/trabalhopw";
-    private static final String USER = "pwuser";
-    private static final String PASSWORD = "1234";
+    private static final String USER = "postgres";
+    private static final String PASSWORD = "postgres";
 
     public List<Produto> listarProdutos() {
         List<Produto> produtos = new ArrayList<>();
@@ -22,10 +23,11 @@ public class ProdutoDAO {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                int id = rs.getInt("id");
+                Long id = rs.getLong("id");
                 String nome = rs.getString("nome");
                 String descricao = rs.getString("descricao");
-                double preco = rs.getDouble("preco");
+                String valorPreco = String.valueOf(rs.getBigDecimal("preco"));
+                double preco = Double.valueOf(valorPreco);
                 int qntd = rs.getInt("qntd");
                 produtos.add(new Produto(id, nome, descricao, preco, qntd));
             }

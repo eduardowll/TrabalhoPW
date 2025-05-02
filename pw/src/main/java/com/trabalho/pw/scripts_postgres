@@ -1,0 +1,75 @@
+-- PRIMEIRO PASSO: Criação das tabelas e inserts de teste.
+
+--CREATE TABLE TABELA (
+  --nome tipo,
+  --nome tipo
+--);
+
+-- insert
+--INSERT INTO TABELA(variáveis) VALUES (valores, respectivamente);
+
+
+-- fetch
+-- SELECT * FROM EMPLOYEE;
+
+CREATE TABLE produto (
+  id SERIAL PRIMARY KEY,
+  nome VARCHAR(100) UNIQUE,
+  descricao VARCHAR(1000),
+  preco DOUBLE PRECISION,
+  qntd INTEGER
+);
+--Aqui é geralmente deveria ser usado o MONEY para preço, no entanto, bugs estão ocorrendo, trato depois
+--Dados teste:
+
+INSERT INTO produto(nome, descricao, preco, qntd) VALUES('Batata', 'Uma batata', 9.99, 1000);
+INSERT INTO produto(nome, descricao, preco, qntd) VALUES('PC', 'Uma batata funcional, possui um processador', 999.99, 100);
+INSERT INTO produto(nome, descricao, preco, qntd) VALUES('Pilhas', 'Uma batata que fornece energia a pequenos eletronnicos', 19.99, 500);
+
+
+CREATE TABLE Usuario (
+  id SERIAL PRIMARY KEY,
+  nome VARCHAR(100) NOT NULL,
+  email VARCHAR(100) UNIQUE NOT NULL,
+  senha VARCHAR(100) NOT NULL,
+  tipo VARCHAR(100)
+);
+
+--Dados teste:
+INSERT INTO Usuario(nome, email, senha, tipo) VALUES('João Pedro','jp2017@uol.com.br', '12345jaum', 'cliente');
+INSERT INTO Usuario(nome, email, senha, tipo) VALUES('Amara Silva','amarasil@bol.com.br', 'amara82', 'cliente');
+INSERT INTO Usuario(nome, email, senha, tipo) VALUES('Maria Pereira','mariape@terra.com.br', '145aektm', 'cliente');
+
+CREATE TABLE carrinho (
+  idCliente BIGINT NOT NULL,
+  idProduto BIGINT NOT NULL,
+  qntd INTEGER DEFAULT 0
+);
+
+INSERT INTO carrinho(idCliente, idProduto,qntd) VALUES (1,1,10);
+INSERT INTO carrinho(idCliente, idProduto,qntd) VALUES (1,2,1);
+INSERT INTO carrinho(idCliente, idProduto,qntd) VALUES (1,3,2);
+INSERT INTO carrinho(idCliente, idProduto,qntd) VALUES (2,1,100);
+INSERT INTO carrinho(idCliente, idProduto,qntd) VALUES (2,2,10);
+INSERT INTO carrinho(idCliente, idProduto,qntd) VALUES (2,3,1);
+INSERT INTO carrinho(idCliente, idProduto,qntd) VALUES (3,1,5);
+INSERT INTO carrinho(idCliente, idProduto,qntd) VALUES (3,2,6);
+INSERT INTO carrinho(idCliente, idProduto,qntd) VALUES (3,3,7);
+
+
+--SEGUNDO PASSO: Comandos de SELECT:
+
+--SELECT p.nome, p.descricao, p.preco, c.qntd FROM produto p, usuario u, carrinho c
+--WHERE c.idCliente = ? AND u.id = c.idCliente AND p.id = c.idProduto;
+
+
+
+--Adicionar algum produto ao carrinho
+--UPDATE carrinho
+--SET qntd = qntd + 1
+--WHERE idCliente = 1 AND idProduto = 1;
+
+
+
+
+--INSERT INTO carrinho(idCliente, idProduto,qntd) VALUES (?,?,1);
